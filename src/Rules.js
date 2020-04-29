@@ -68,35 +68,15 @@ class FullHouse extends Rule {
 /** Check for small straights. */
 
 class SmallStraight extends Rule {
-    // are there at least 4 consecutive numbers?
     evalRoll = (dice) => {
-        const uniques = Array.from(new Set(dice));
-        const minUniques = uniques.length === 4 || uniques.length === 5;
-        if (minUniques) {
-            let fourConsec = true;
-            const top = Math.max.apply(Math, uniques);
-            for (let i = 1; i <= 3; i++) {
-                if (!uniques.includes(top - i)) {
-                    fourConsec = false;
-                    break;
-                }
-            }
-            if (fourConsec) {
-                return this.score;
-            }
-
-            const bot = Math.min.apply(Math, uniques);
-            for (let i = 1; i <= 3; i++) {
-                if (!uniques.includes(bot + i)) {
-                    return 0;
-                }
-            }
+        const d = new Set(dice);
+        // Small straight must contain either 1-4, 2-5, or 3-6
+        if (
+            (d.has(2) && d.has(3) && d.has(4) && (d.has(1) || d.has(5))) ||
+            (d.has(3) && d.has(4) && d.has(5) && (d.has(2) || d.has(6)))
+        )
             return this.score;
-        }
         return 0;
-
-        // small straight must be 4 or 5 different dice & only one can be a 1 or a 6
-        // return (d.size === 4 || d.size === 5) && (!d.has(1) || !d.has(6)) ? this.score : 0;
     };
 }
 

@@ -11,7 +11,6 @@ class Game extends Component {
         super(props);
         this.state = {
             dice: Array.from({ length: NUM_DICE }),
-            // dice: [ 6, 5, 4, 3, 2 ],
             locked: Array(NUM_DICE).fill(false),
             rollsLeft: NUM_ROLLS,
             scores: {
