@@ -27,7 +27,7 @@ class Die extends Component {
 
     render() {
         const { dieIcons, locked, val, disabled, rolling } = this.props;
-        const classes = `Die ${locked ? 'Die-locked' : ''} ${rolling ? 'Die-rolling' : ''}`;
+        const classes = `Die ${locked ? 'Die-locked' : ''}${rolling ? 'Die-rolling' : ''}`;
 
         return <FontAwesomeIcon icon={dieIcons.get(val)} size='5x' className={classes} onClick={this.handleClick} disabled={disabled} />;
     }
