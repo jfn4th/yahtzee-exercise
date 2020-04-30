@@ -35,7 +35,7 @@ class Game extends Component {
         this.doScore = this.doScore.bind(this);
         this.toggleLocked = this.toggleLocked.bind(this);
         this.animateRoll = this.animateRoll.bind(this);
-        this.updateHighscore = this.updateHighscore.bind(this);
+        this.updateHighScore = this.updateHighScore.bind(this);
     }
     componentDidMount() {
         const playerHighScore = JSON.parse(localStorage.getItem('highScore'));
