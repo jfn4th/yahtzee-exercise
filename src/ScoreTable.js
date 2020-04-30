@@ -16,7 +16,6 @@ import {
     yahtzee,
     chance
 } from './Rules';
-import desc from './';
 
 class ScoreTable extends Component {
     render() {

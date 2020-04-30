@@ -71,10 +71,7 @@ class SmallStraight extends Rule {
     evalRoll = (dice) => {
         const d = new Set(dice);
         // Small straight must contain either 1-4, 2-5, or 3-6
-        if (
-            (d.has(2) && d.has(3) && d.has(4) && (d.has(1) || d.has(5))) ||
-            (d.has(3) && d.has(4) && d.has(5) && (d.has(2) || d.has(6)))
-        )
+        if ((d.has(2) && d.has(3) && d.has(4) && (d.has(1) || d.has(5))) || (d.has(3) && d.has(4) && d.has(5) && (d.has(2) || d.has(6))))
             return this.score;
         return 0;
     };
@@ -143,18 +140,4 @@ const yahtzee = new Yahtzee({
 // for chance, can view as some of all dice, requiring at least 0 of a kind
 const chance = new SumDistro({ count: 0, description: 'Sum of all dice' });
 
-export {
-    ones,
-    twos,
-    threes,
-    fours,
-    fives,
-    sixes,
-    threeOfKind,
-    fourOfKind,
-    fullHouse,
-    smallStraight,
-    largeStraight,
-    yahtzee,
-    chance
-};
+export { ones, twos, threes, fours, fives, sixes, threeOfKind, fourOfKind, fullHouse, smallStraight, largeStraight, yahtzee, chance };
