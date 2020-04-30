@@ -12,7 +12,8 @@ class Die extends Component {
             [ 4, faDiceFour ],
             [ 5, faDiceFive ],
             [ 6, faDiceSix ]
-        ])
+        ]),
+        val: 5
     };
 
     constructor(props) {
@@ -25,8 +26,8 @@ class Die extends Component {
     }
 
     render() {
-        const { dieIcons, locked, val, disabled } = this.props;
-        const classes = `Die ${locked ? 'Die-locked' : ''}`;
+        const { dieIcons, locked, val, disabled, rolling } = this.props;
+        const classes = `Die ${locked ? 'Die-locked' : ''} ${rolling ? 'Die-rolling' : ''}`;
 
         return <FontAwesomeIcon icon={dieIcons.get(val)} size='5x' className={classes} onClick={this.handleClick} disabled={disabled} />;
     }
