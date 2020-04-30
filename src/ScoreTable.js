@@ -19,10 +19,13 @@ import {
 
 class ScoreTable extends Component {
     getTotalScore() {
-        const { scores } = this.props;
+        const { scores, highScore } = this.props;
         let totalScore = 0;
         for (const score in scores) {
             if (scores[score]) totalScore += scores[score];
+        }
+        if (totalScore > highScore) {
+            this.props.updateHighScore(totalScore);
         }
         return totalScore;
     }
@@ -124,6 +127,7 @@ class ScoreTable extends Component {
                     </table>
                 </section>
                 <h2>TOTAL SCORE: {this.getTotalScore()}</h2>
+                <h2>YOUR HIGHSCORE: {this.props.highScore}</h2>
             </div>
         );
     }

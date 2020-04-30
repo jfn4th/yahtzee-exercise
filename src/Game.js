@@ -14,6 +14,7 @@ class Game extends Component {
             locked: Array(NUM_DICE).fill(false),
             rollsLeft: NUM_ROLLS,
             rolling: false,
+            highScore: 0,
             scores: {
                 ones: undefined,
                 twos: undefined,
@@ -34,8 +35,13 @@ class Game extends Component {
         this.doScore = this.doScore.bind(this);
         this.toggleLocked = this.toggleLocked.bind(this);
         this.animateRoll = this.animateRoll.bind(this);
+        this.updateHighscore = this.updateHighscore.bind(this);
     }
     componentDidMount() {
+        const playerHighScore = JSON.parse(localStorage.getItem('highScore'));
+        if (playerHighScore > 0) {
+            this.setState({ highScore: playerHighScore });
+        }
         this.animateRoll();
     }
 
@@ -74,6 +80,11 @@ class Game extends Component {
         this.animateRoll();
     }
 
+    updateHighScore(newScore) {
+        localStorage.setItem('highScore', JSON.stringify(newScore));
+        this.setState({ highScore: newScore });
+    }
+
     render() {
         return (
             <div className='Game'>
@@ -98,7 +109,12 @@ class Game extends Component {
                         </div>
                     </section>
                 </header>
-                <ScoreTable doScore={this.doScore} scores={this.state.scores} />
+                <ScoreTable
+                    doScore={this.doScore}
+                    scores={this.state.scores}
+                    highScore={this.state.highScore}
+                    updateHighScore={this.updateHighScore}
+                />
             </div>
         );
     }
