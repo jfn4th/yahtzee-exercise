@@ -67,9 +67,13 @@ class Game extends Component {
             <div className='Game'>
                 <header className='Game-header'>
                     <h1 className='App-title'>Yahtzee!</h1>
-
                     <section className='Game-dice-section'>
-                        <Dice dice={this.state.dice} locked={this.state.locked} toggleLocked={this.toggleLocked} />
+                        <Dice
+                            dice={this.state.dice}
+                            locked={this.state.locked}
+                            toggleLocked={this.toggleLocked}
+                            disabled={this.state.rollsLeft === 0}
+                        />
                         <div className='Game-button-wrapper'>
                             <button className='Game-reroll' disabled={this.state.locked.every((x) => x)} onClick={this.roll}>
                                 {this.state.rollsLeft} Rerolls Left
