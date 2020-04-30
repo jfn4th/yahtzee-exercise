@@ -114,6 +114,7 @@ class Game extends Component {
                     scores={this.state.scores}
                     highScore={this.state.highScore}
                     updateHighScore={this.updateHighScore}
+                    rolling={this.state.rolling}
                 />
             </div>
         );
