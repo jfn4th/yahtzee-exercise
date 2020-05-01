@@ -15,6 +15,7 @@ class Game extends Component {
             rollsLeft: NUM_ROLLS,
             rolling: false,
             highScore: 0,
+            gameOver: false,
             scores: {
                 ones: undefined,
                 twos: undefined,
@@ -36,6 +37,8 @@ class Game extends Component {
         this.toggleLocked = this.toggleLocked.bind(this);
         this.animateRoll = this.animateRoll.bind(this);
         this.updateHighScore = this.updateHighScore.bind(this);
+        this.checkGameOver = this.checkGameOver.bind(this);
+        this.startNewGame = this.startNewGame.bind(this);
     }
     componentDidMount() {
         const playerHighScore = JSON.parse(localStorage.getItem('highScore'));
@@ -72,17 +75,51 @@ class Game extends Component {
 
     doScore(rulename, ruleFn) {
         // evaluate this ruleFn with the dice and score this rulename
-        this.setState((st) => ({
-            scores: { ...st.scores, [rulename]: ruleFn(this.state.dice) },
-            rollsLeft: NUM_ROLLS,
-            locked: Array(NUM_DICE).fill(false)
-        }));
-        this.animateRoll();
+        this.setState(
+            (st) => ({
+                scores: { ...st.scores, [rulename]: ruleFn(this.state.dice) },
+                rollsLeft: NUM_ROLLS,
+                locked: Array(NUM_DICE).fill(false)
+            }),
+            () => {
+                this.checkGameOver();
+            }
+        );
     }
 
     updateHighScore(newScore) {
         localStorage.setItem('highScore', JSON.stringify(newScore));
         this.setState({ highScore: newScore });
+    }
+
+    checkGameOver() {
+        for (const score in this.state.scores) {
+            if (this.state.scores[score] === undefined) return this.animateRoll();
+        }
+        this.setState({ gameOver: true });
+    }
+
+    startNewGame() {
+        this.setState((st) => ({
+            locked: Array(NUM_DICE).fill(false),
+            gameOver: false,
+            scores: {
+                ones: undefined,
+                twos: undefined,
+                threes: undefined,
+                fours: undefined,
+                fives: undefined,
+                sixes: undefined,
+                threeOfKind: undefined,
+                fourOfKind: undefined,
+                fullHouse: undefined,
+                smallStraight: undefined,
+                largeStraight: undefined,
+                yahtzee: undefined,
+                chance: undefined
+            }
+        }));
+        this.animateRoll();
     }
 
     render() {
@@ -102,9 +139,15 @@ class Game extends Component {
                             <button
                                 className='Game-reroll'
                                 disabled={this.state.locked.every((x) => x) || this.state.rolling}
-                                onClick={this.animateRoll}
+                                onClick={this.state.gameOver ? this.startNewGame : this.animateRoll}
                             >
-                                {this.state.rollsLeft <= 2 ? `${this.state.rollsLeft} Rerolls Left` : `Starting Round`}
+                                {this.state.gameOver ? (
+                                    `Play Again?`
+                                ) : this.state.rollsLeft <= 2 ? (
+                                    `${this.state.rollsLeft} Rerolls Left`
+                                ) : (
+                                    `Starting Round`
+                                )}
                             </button>
                         </div>
                     </section>
